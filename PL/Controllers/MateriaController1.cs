@@ -6,24 +6,33 @@ namespace PL.Controllers
     {
         [HttpGet]
         public ActionResult Form(int? IdMateria)
-            {
+        {
+
             ML.Materia materia = new ML.Materia();
-            materia.Semestre = new ML.Semestre();
+            ML.Result resultSemestre = BL.Semestre.GetAll();
 
-            if (IdMateria == null)
+            if (resultSemestre.Correct)
             {
-                //add 
-                return View(materia);
-            }
-            else
-            {
-                //Update
-                //ML.Result result = BL.Materia.GetById(IdMateria.Value);
+                if (IdMateria == null)
+                {
+                    materia.Semestre = new ML.Semestre();
+                    materia.Semestre.Semestres = resultSemestre.Objects;
+                    return View(materia);
+                }
+                else
+                {
+                    ML.Result result = new ML.Result();
+                    //result = BL.Materia.GetById(IdMateria.Value);
 
-                //materia = ((ML.Materia)result.Object);
-
-                return View(materia);
+                    if (result.Correct)
+                    {
+                        materia = ((ML.Materia)result.Object);
+                        return View(materia);
+                    }
+                }
             }
+
+            return View();
         }
         [HttpPost]
         public ActionResult Form(ML.Materia materia)

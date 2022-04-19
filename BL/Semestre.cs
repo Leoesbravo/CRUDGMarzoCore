@@ -7,25 +7,29 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Materia
+    public class Semestre
     {
-        public static ML.Result Add(ML.Materia materia)
+        public static ML.Result GetAll()
         {
             ML.Result result = new ML.Result();
-
             try
             {
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
+
                 {
+                    var query = context.Semestres.FromSqlRaw("SemestreGetAll").ToList();
+                    result.Objects = new List<object>();
 
-                    //Stored con .Net Framework
-                    // var query = context.MateriaAdd(materia.Nombre, materia.Costo, materia.Creditos, materia.Semestre.IdSemestre);
-
-                    //Stored con .Net core
-                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Costo}, {materia.Creditos}, {materia.Semestre.IdSemestre}" );
-
-                    if (query >= 1)
+                    if (query != null)
                     {
+                        foreach (var obj in query)
+                        {
+                            ML.Semestre semestre = new ML.Semestre();
+                            semestre.IdSemestre = obj.IdSemestre;
+                            semestre.Nombre = obj.Nombre;
+
+                            result.Objects.Add(semestre);
+                        }
                         result.Correct = true;
                     }
                     else
@@ -38,9 +42,7 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
-                result.Ex = ex;
             }
-
             return result;
         }
     }

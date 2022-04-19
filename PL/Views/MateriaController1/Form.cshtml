@@ -20,52 +20,53 @@
             <div class="form-horizontal">
 
                 <div class="form-group">
-                    <div class="col-md-3">
+                    <div class="col-md-3" style = "display: none;">
                         @Html.LabelFor(model => model.IdMateria, new { @class = "hidden" })
                         @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control", autocomplete = "off" })
                         @Html.ValidationMessageFor(model => model.IdMateria)
                     </div>
                 </div>
-
                 <div class="form-group">
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Nombre)
-                        @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre" })
-                        @Html.ValidationMessageFor(model => model.Nombre)
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" ><i class="bi bi-rulers"></i></span>
+                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia" })
+                            @Html.ValidationMessageFor(model => model.Nombre)
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-3">
                         @Html.LabelFor(model => model.Costo)
-                        @Html.TextBoxFor(model => model.Costo, "{0:#.#}", new { @class = "form-control", @id = "txtNombre" })
-                        @Html.ValidationMessageFor(model => model.Costo)
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1" ><i class="bi bi-currency-dollar"></i></span>
+                            @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtNombre", @placeholder="MXN" })
+                            @Html.ValidationMessageFor(model => model.Costo)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.Label("Semestre")
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon1" ><i class="bi bi-journal-text"></i></span>
+                            @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.Semestre.IdSemestre)
-                        @Html.TextBoxFor(model => model.Semestre.IdSemestre, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-3">
-                        @Html.LabelFor(model => model.Creditos)
-                        @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtNombre" })
-                        @Html.ValidationMessageFor(model => model.Creditos)
-                    </div>
-                </div>
-                @*<div class="form-group">
-                    <div class="col-md-3">
                         @Html.LabelFor(model => model.Creditos)
                         <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">@@</span>
+                            <span class="input-group-text" id="basic-addon1">#</span>
                             @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtNombre" })
                         </div>
                     </div>
-                </div>*@
+                </div>
 
 
 
