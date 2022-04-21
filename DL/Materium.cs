@@ -5,6 +5,11 @@ namespace DL
 {
     public partial class Materium
     {
+        public Materium()
+        {
+            Direccions = new HashSet<Direccion>();
+        }
+
         public int IdMateria { get; set; }
         public string? Nombre { get; set; }
         public byte? Creditos { get; set; }
@@ -12,5 +17,6 @@ namespace DL
         public int? IdSemestre { get; set; }
 
         public virtual Semestre? IdSemestreNavigation { get; set; }
+        public virtual ICollection<Direccion> Direccions { get; set; }
     }
 }
