@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,49 +6,41 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Estado
+    public class Grupo
     {
-        public static ML.Result GetByIdPais(int IdPais)
+        public static ML.Result GrupoGetByIdPlantel(int idPlantel)
         {
-
             ML.Result result = new ML.Result();
             try
             {
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
+
                 {
-                    var estados = context.Estados.FromSqlRaw($"EstadoGetByIdPais {IdPais}").ToList();
+                    var query = context.Plantels.FromSqlRaw("PlantelGetAll").ToList();
                     result.Objects = new List<object>();
 
-                    if (estados != null)
+                    if (query != null)
                     {
-                        foreach (var objEstado in estados)
+                        foreach (var obj in query)
                         {
-                            ML.Estado estado = new ML.Estado();
-                            estado.IdEstado = objEstado.IdEstado;
-                            estado.Nombre = objEstado.Nombre;
-                            estado.Pais = new ML.Pais();
-                            estado.Pais.IdPais = objEstado.IdPais.Value;
+                            ML.Plantel plantel = new ML.Plantel();
+                            plantel.IdPlantel = obj.IdPlantel;
+                            plantel.Nombre = obj.Nombre;
 
-
-                            result.Objects.Add(estado);
+                            result.Objects.Add(plantel);
                         }
                         result.Correct = true;
-
                     }
                     else
                     {
                         result.Correct = false;
-                        result.ErrorMessage = "No se pudo realizar la consulta";
                     }
-
                 }
             }
-
             catch (Exception ex)
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
-                result.Ex = ex;
             }
             return result;
         }

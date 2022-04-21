@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class Pais
+    public class Plantel
     {
         public static ML.Result GetAll()
         {
@@ -15,27 +14,26 @@ namespace BL
             try
             {
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
+
                 {
-                    var  paises = context.Pais.FromSqlRaw("PaisGetAll").ToList();
+                    var query = context.Plantels.FromSqlRaw("PlantelGetAll").ToList();
                     result.Objects = new List<object>();
-                    if (paises != null)
+
+                    if (query != null)
                     {
-                        foreach (var obj in paises)
+                        foreach (var obj in query)
                         {
-                            ML.Pais pais = new ML.Pais();
-                            pais.IdPais = obj.IdPais;
-                            pais.Nombre = obj.Nombre;
+                            ML.Plantel plantel = new ML.Plantel();
+                            plantel.IdPlantel = obj.IdPlantel;
+                            plantel.Nombre = obj.Nombre;
 
-                            result.Objects.Add(pais);
-
+                            result.Objects.Add(plantel);
                         }
                         result.Correct = true;
                     }
                     else
                     {
                         result.Correct = false;
-                        result.ErrorMessage = "No se ha podido realizar la consulta";
-
                     }
                 }
             }

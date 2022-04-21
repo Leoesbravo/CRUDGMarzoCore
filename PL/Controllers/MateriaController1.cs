@@ -21,22 +21,22 @@ namespace PL.Controllers
 
             ML.Materia materia = new ML.Materia();
             ML.Result resultSemestre = BL.Semestre.GetAll();
-            
 
-            ML.Result resultPaises = BL.Pais.GetAll();
-            materia.Direccion = new ML.Direccion();
-            materia.Direccion.Colonia = new ML.Colonia();
-            materia.Direccion.Colonia.Municipio = new ML.Municipio();
-            materia.Direccion.Colonia.Municipio.Estado = new ML.Estado();
-            materia.Direccion.Colonia.Municipio.Estado.Pais = new ML.Pais();
-            materia.Direccion.Colonia.Municipio.Estado.Pais.Paises = resultPaises.Objects;
+            materia.Plantel = new ML.Plantel();
+            materia.Plantel.Grupo = new ML.Grupo();
+
+            ML.Result resultPlantel = BL.Plantel.GetAll();
+
 
             if (resultSemestre.Correct)
             {
                 if (IdMateria == null)
                 {
                     materia.Semestre = new ML.Semestre();
+
                     materia.Semestre.Semestres = resultSemestre.Objects;
+                    materia.Plantel.Planteles = resultPlantel.Objects;
+
                     return View(materia);
                 }
                 else
@@ -47,7 +47,6 @@ namespace PL.Controllers
                     if (result.Correct)
                     {
                         materia = ((ML.Materia)result.Object);
-                        materia.Semestre.Semestres = resultSemestre.Objects;
                         return View(materia);
                     }
                 }
@@ -65,47 +64,38 @@ namespace PL.Controllers
                 result = BL.Materia.Add(materia);
                 if (result.Correct)
                 {
-                    ViewBag.Message = "La materia se ha agregado";
+                    ViewBag.Message = "La materia se ha registrado correctamente";
                 }
                 else
                 {
-
-                    ViewBag.Message = "La materia no se agrego";
+                    ViewBag.Message = "La materia no se ha registrado correctamente " + result.ErrorMessage;
                 }
             }
             else
             {
-               // result = BL.Materia.Update(materia);
+                result = BL.Materia.Update(materia);
+
                 if (result.Correct)
                 {
-                    ViewBag.Message = "La materia se ha agregado";
+                    ViewBag.Message = "El registro se ha actualizado correctamente";
                 }
                 else
                 {
-
-                    ViewBag.Message = "La materia no se agrego";
+                    ViewBag.Message = "El registro no se ha actualizado correctamente " + result.ErrorMessage;
                 }
+
+
             }
 
             return PartialView("Modal");
         }
-        public JsonResult GetEstado(int IdPais)
+
+        public JsonResult GrupoGetByIdPlantel(int IdPlantel)
         {
-            var result = BL.Estado.GetByIdPais(IdPais);
+            ML.Result result = BL.Grupo.GrupoGetByIdPlantel(IdPlantel);
 
             return Json(result.Objects);
         }
-        public JsonResult GetMunicipio(int IdEstado)
-        {
-            var result = BL.Municipio.MunicipioGetByIdEstado(IdEstado);
 
-            return Json(result.Objects);
-        }
-        public JsonResult GetColonia(int IdMunicipio)
-        {
-            var result = BL.Colonia.ColoniaGetByIdMunicipio(IdMunicipio);
-
-            return Json(result.Objects);
-        }
     }
 }

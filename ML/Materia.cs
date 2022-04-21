@@ -14,6 +14,7 @@ namespace ML
         public decimal? Costo { get; set; }
         public ML.Semestre Semestre { get; set; }
         public List<object> Materias { get; set; }
-        public ML.Direccion Direccion { get; set; }
+        public ML.Grupo Grupo { get; set; }
+        public ML.Plantel Plantel { get; set; }
     }
 }

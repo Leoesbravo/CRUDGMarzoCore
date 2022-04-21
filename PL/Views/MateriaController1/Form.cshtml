@@ -67,61 +67,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3">
-                            @Html.Label("País")
-                            @if (Model.Direccion.Colonia.Municipio.Estado.Pais.Paises == null)
-                            {
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, new SelectList(string.Empty, "Value", "Text"), "Selecciona un Pais", htmlAttributes: new { id = "ddlPais", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, null, new { @class = "text-danger" })
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Pais.Paises, "IdPais", "Nombre"), "Selecciona un país", htmlAttributes: new { id = "ddlPais", @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.Direccion.Colonia.Municipio.Estado.Pais.IdPais, null, new { @class = "text-danger" })
-                            }
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Plantel.Planteles)                      
+                        @Html.DropDownListFor(model => model.Plantel.IdPlantel, new SelectList(Model.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona un plantel", new { @class = "form-control", @id = "ddlPlantel" })
+                        @Html.ValidationMessageFor(model => model.Plantel.IdPlantel)
+                    </div>
                 </div>
-                <br>
-                <div class="col-md-3">
-                            @Html.Label("Estado")
-                            @if (Model.Direccion.Colonia.Municipio.Estado.Estados == null)
-                            {
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(string.Empty, "Value", "Text"), "Selecciona un Estado", htmlAttributes: new { id = "ddlEstado", @class = "form-control" })
-
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.Estado.IdEstado, new SelectList(Model.Direccion.Colonia.Municipio.Estado.Estados, "IdEstado", "Nombre"), "Selecciona un Estado", htmlAttributes: new { id = "ddlEstado", @class = "form-control" })
-                            }
+                 <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(model => model.Grupo.Grupos)                      
+                        @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                        @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
+                    </div>
                 </div>
-                <br>
-                <div class="col-md-3">
-                                @Html.Label("Municipio")
-                                @if (Model.Direccion.Colonia.Municipio.Municipios == null)
-                                {
-                                    @*model.Categoria.IdCategoria*@
-                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(string.Empty, "Value", "Text"), "Selecciona un Municipio", htmlAttributes: new { id = "ddlMunicipio", @class = "form-control" })
-
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(model => model.Direccion.Colonia.Municipio.IdMunicipio, new SelectList(Model.Direccion.Colonia.Municipio.Municipios, "IdMunicipio", "Nombre"), "Selecciona un Municipio", htmlAttributes: new { id = "ddlMunicipio", @class = "form-control" })
-                                }
-                </div>
-                <br>
-                <div class="col-md-3">
-                            @Html.Label("Colonia")
-                             @if (Model.Direccion.Colonia.Colonias == null)
-                            {
-                                @*model.Categoria.IdCategoria*@
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(string.Empty, "Value", "Text"), "Selecciona una Colonia", htmlAttributes: new { id = "ddlColonia", @class = "form-control" })
-
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.Direccion.Colonia.IdColonia, new SelectList(Model.Direccion.Colonia.Colonias, "IdColonia", "Nombre"), "Selecciona una Colonia", htmlAttributes: new { id = "ddlColonia", @class = "form-control" })
-                            }
-                </div>
-                <br>
 
                 <div class="form-group">
                     <div class="col-md-3">
@@ -141,30 +100,20 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
 
-      function Previsualizar(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#ImagenPreview').attr('src', e.target.result);
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    $(document).ready(function () {
-        $("#ddlPais").change(function () {
-            $("#ddlEstado").empty();
+$(document).ready(function () {
+        $("#ddlPlantel").change(function () {
+            $("#ddlGrupo").empty();
             $.ajax({
                 type: 'POST',
-                url: '@Url.Action("GetEstado")',
+                url: '@Url.Action("GrupoGetByIdPlantel")',
                 dataType: 'json',
-                data: { IdPais: $("#ddlPais").val() },
-                success: function (estados) {
-                    $("#ddlEstado").append('<option value="0">' + 'Seleccione una opción' + '</option>');
-                    $.each(estados, function (i, estados) {
-                        $("#ddlEstado").append('<option value="'
-                                                   + estados.idEstado + '">'
-                                                   + estados.nombre + '</option>');
+                data: { IdPlantel: $("#ddlPlantel").val() },
+                success: function (grupos) {
+                    $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
+                    $.each(grupos, function (i, grupos) {
+                        $("#ddlGrupo").append('<option value="'
+                                                   + grupos.idGrupo + '">'
+                                                   + grupos.nombre + '</option>');
                     });
                 },
                 error: function (ex) {
@@ -172,52 +121,6 @@
                 }
             });
         });
-
-       $("#ddlEstado").change(function () {
-            $("#ddlMunicipio").empty();
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetMunicipio")',
-                dataType: 'json',
-                data: { IdEstado: $("#ddlEstado").val() },
-                success: function (municipios) {
-                    $("#ddlMunicipio").append('<option value="0">' + 'Seleccione una opción' + '</option>');
-                    $.each(municipios, function (i, municipios) {
-                        $("#ddlMunicipio").append('<option value="'
-                                                   + municipios.idMunicipio + '">'
-                                                   + municipios.nombre + '</option>');
-                    });
-                },
-                error: function (ex) {
-                    alert('Failed.' + ex);
-                }
-            });
-       });
-
-        $("#ddlMunicipio").change(function () {
-            $("#ddlColonia").empty();
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GetColonia")',
-                dataType: 'json',
-                data: { IdMunicipio: $("#ddlMunicipio").val() },
-                success: function (colonias) {
-                    $("#ddlColonia").append('<option value="0">' + 'Seleccione una opción' + '</option>');
-                    $.each(colonias, function (i, colonias) {
-                        $("#ddlColonia").append('<option value="'
-                                                   + colonias.idColonia + '">'
-                                                   + colonias.nombre + '</option>');
-                    });
-                },
-                error: function (ex) {
-                    alert('Failed.' + ex);
-                }
-            });
-
-        });
-
-    });
-
 </script>
 }
 
