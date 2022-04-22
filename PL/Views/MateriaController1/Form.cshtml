@@ -76,9 +76,17 @@
                 </div>
                  <div class="form-group">
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.Grupo.Grupos)                      
-                        @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
-                        @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
+                        @Html.LabelFor(model => model.Plantel.Grupo.Grupos)  
+                        @if (Model.Plantel.Grupo.Grupos == null)
+                            {
+                                @Html.DropDownListFor(model => model.Plantel.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                                @Html.ValidationMessageFor(model => model.Plantel.Grupo.IdGrupo)
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.Plantel.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                                @Html.ValidationMessageFor(model => model.Plantel.Grupo.IdGrupo)
+                            }
                     </div>
                 </div>
 

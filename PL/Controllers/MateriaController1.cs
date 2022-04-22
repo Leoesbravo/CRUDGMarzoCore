@@ -10,7 +10,6 @@ namespace PL.Controllers
             ML.Result result = BL.Materia.GetAll();
             ML.Materia materia = new ML.Materia();
 
-
             materia.Materias = result.Objects;
 
             return View(materia);
@@ -73,7 +72,7 @@ namespace PL.Controllers
             }
             else
             {
-                result = BL.Materia.Update(materia);
+                //result = BL.Materia.Update(materia);
 
                 if (result.Correct)
                 {
