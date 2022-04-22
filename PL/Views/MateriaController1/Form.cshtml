@@ -69,23 +69,23 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.Plantel.Planteles)                      
-                        @Html.DropDownListFor(model => model.Plantel.IdPlantel, new SelectList(Model.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona un plantel", new { @class = "form-control", @id = "ddlPlantel" })
-                        @Html.ValidationMessageFor(model => model.Plantel.IdPlantel)
+                        @Html.LabelFor(model => model.Grupo.Plantel.Planteles)                      
+                        @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona un plantel", new { @class = "form-control", @id = "ddlPlantel" })
+                        @Html.ValidationMessageFor(model => model.Grupo.Plantel.IdPlantel)
                     </div>
                 </div>
                  <div class="form-group">
                     <div class="col-md-3">
-                        @Html.LabelFor(model => model.Plantel.Grupo.Grupos)  
-                        @if (Model.Plantel.Grupo.Grupos == null)
+                        @Html.LabelFor(model => model.Grupo.Grupos)  
+                        @if (Model.Grupo.Grupos == null)
                             {
-                                @Html.DropDownListFor(model => model.Plantel.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
-                                @Html.ValidationMessageFor(model => model.Plantel.Grupo.IdGrupo)
+                                @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                                @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
                             }
                             else
                             {
-                                @Html.DropDownListFor(model => model.Plantel.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
-                                @Html.ValidationMessageFor(model => model.Plantel.Grupo.IdGrupo)
+                                @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                                @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
                             }
                     </div>
                 </div>
@@ -121,14 +121,16 @@ $(document).ready(function () {
                     $.each(grupos, function (i, grupos) {
                         $("#ddlGrupo").append('<option value="'
                                                    + grupos.idGrupo + '">'
-                                                   + grupos.nombre + '</option>');
+                                                   + grupos.horario + '</option>');
                     });
-                },
+                },  
                 error: function (ex) {
                     alert('Failed.' + ex);
                 }
             });
         });
+
+    });
 </script>
 }
 

@@ -12,5 +12,6 @@ namespace ML
         public string Horario { get; set; }
         public ML.Materia Materia { get; set; }
         public List<object> Grupos { get; set; }
+        public ML.Plantel Plantel { get; set; }
     }
 }

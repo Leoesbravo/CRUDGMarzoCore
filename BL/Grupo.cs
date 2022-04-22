@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,18 +17,25 @@ namespace BL
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
 
                 {
-                    var query = context.Plantels.FromSqlRaw("PlantelGetAll").ToList();
+                    var query = context.Grupos.FromSqlRaw($"GrupoGetByIdPlantel {idPlantel}").ToList();
                     result.Objects = new List<object>();
 
                     if (query != null)
                     {
                         foreach (var obj in query)
                         {
-                            ML.Plantel plantel = new ML.Plantel();
-                            plantel.IdPlantel = obj.IdPlantel;
-                            plantel.Nombre = obj.Nombre;
+                            ML.Grupo grupo = new ML.Grupo();
+                            grupo.IdGrupo = obj.IdGrupo;
+                            grupo.Horario = obj.Horario;
 
-                            result.Objects.Add(plantel);
+                            grupo.Materia = new ML.Materia();
+                            grupo.Materia.IdMateria = obj.IdMateria.Value;
+
+                            grupo.Plantel = new ML.Plantel();
+                            grupo.Plantel.IdPlantel = obj.IdPlantel.Value;
+                            //grupo.  
+
+                            result.Objects.Add(grupo);
                         }
                         result.Correct = true;
                     }

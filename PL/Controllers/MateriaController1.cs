@@ -21,8 +21,9 @@ namespace PL.Controllers
             ML.Materia materia = new ML.Materia();
             ML.Result resultSemestre = BL.Semestre.GetAll();
 
-            materia.Plantel = new ML.Plantel();
-            materia.Plantel.Grupo = new ML.Grupo();
+            materia.Grupo = new ML.Grupo();
+            materia.Grupo.Plantel = new ML.Plantel();
+
 
             ML.Result resultPlantel = BL.Plantel.GetAll();
 
@@ -34,7 +35,7 @@ namespace PL.Controllers
                     materia.Semestre = new ML.Semestre();
 
                     materia.Semestre.Semestres = resultSemestre.Objects;
-                    materia.Plantel.Planteles = resultPlantel.Objects;
+                    materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
 
                     return View(materia);
                 }

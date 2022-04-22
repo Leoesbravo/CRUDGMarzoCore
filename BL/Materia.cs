@@ -22,7 +22,7 @@ namespace BL
                     // var query = context.MateriaAdd(materia.Nombre, materia.Costo, materia.Creditos, materia.Semestre.IdSemestre);
 
                     //Stored con .Net core
-                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Costo}, {materia.Creditos}, {materia.Semestre.IdSemestre}, '{materia.Direccion.Calle}', '{materia.Direccion.NumeroExterior}', '{materia.Direccion.NumeroInterior}', {materia.Direccion.Colonia.IdColonia}" );
+                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Costo}, {materia.Creditos}, {materia.Semestre.IdSemestre}, '{materia.Grupo.Horario}', {materia.Plantel.IdPlantel}, {materia.IdMateria} ");
 
                     if (query >= 1)
                     {

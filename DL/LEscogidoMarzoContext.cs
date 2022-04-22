@@ -19,9 +19,11 @@ namespace DL
         public virtual DbSet<Colonium> Colonia { get; set; } = null!;
         public virtual DbSet<Direccion> Direccions { get; set; } = null!;
         public virtual DbSet<Estado> Estados { get; set; } = null!;
+        public virtual DbSet<Grupo> Grupos { get; set; } = null!;
         public virtual DbSet<Materium> Materia { get; set; } = null!;
         public virtual DbSet<Municipio> Municipios { get; set; } = null!;
         public virtual DbSet<Pai> Pais { get; set; } = null!;
+        public virtual DbSet<Plantel> Plantels { get; set; } = null!;
         public virtual DbSet<Semestre> Semestres { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -57,7 +59,7 @@ namespace DL
             modelBuilder.Entity<Direccion>(entity =>
             {
                 entity.HasKey(e => e.IdDireccion)
-                    .HasName("PK__Direccio__1F8E0C76AF3AD63A");
+                    .HasName("PK__Direccio__1F8E0C7644B3610D");
 
                 entity.ToTable("Direccion");
 
@@ -76,12 +78,12 @@ namespace DL
                 entity.HasOne(d => d.IdColoniaNavigation)
                     .WithMany(p => p.Direccions)
                     .HasForeignKey(d => d.IdColonia)
-                    .HasConstraintName("FK__Direccion__IdCol__44FF419A");
+                    .HasConstraintName("FK__Direccion__IdCol__48CFD27E");
 
-                entity.HasOne(d => d.IdUsuarioNavigation)
+                entity.HasOne(d => d.IdMateriaNavigation)
                     .WithMany(p => p.Direccions)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .HasConstraintName("FK__Direccion__IdUsu__45F365D3");
+                    .HasForeignKey(d => d.IdMateria)
+                    .HasConstraintName("FK__Direccion__IdMat__49C3F6B7");
             });
 
             modelBuilder.Entity<Estado>(entity =>
@@ -99,6 +101,29 @@ namespace DL
                     .WithMany(p => p.Estados)
                     .HasForeignKey(d => d.IdPais)
                     .HasConstraintName("FK__Estado__IdPais__3C69FB99");
+            });
+
+            modelBuilder.Entity<Grupo>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("GRUPO");
+
+                entity.Property(e => e.Horario)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.IdGrupo).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.IdMateriaNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdMateria)
+                    .HasConstraintName("FK__GRUPO__IdMateria__5EBF139D");
+
+                entity.HasOne(d => d.IdPlantelNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdPlantel)
+                    .HasConstraintName("FK__GRUPO__IdPlantel__5DCAEF64");
             });
 
             modelBuilder.Entity<Materium>(entity =>
@@ -139,6 +164,18 @@ namespace DL
             {
                 entity.HasKey(e => e.IdPais)
                     .HasName("PK__Pais__FC850A7BB1AABDB5");
+
+                entity.Property(e => e.Nombre)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Plantel>(entity =>
+            {
+                entity.HasKey(e => e.IdPlantel)
+                    .HasName("PK__Plantel__485FDCFEEA044B65");
+
+                entity.ToTable("Plantel");
 
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(50)
