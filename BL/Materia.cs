@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +18,7 @@ namespace BL
             {
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
                 {
-
-                    //Stored con .Net Framework
-                    // var query = context.MateriaAdd(materia.Nombre, materia.Costo, materia.Creditos, materia.Semestre.IdSemestre);
-
-                    //Stored con .Net core
-                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Costo}, {materia.Creditos}, {materia.Semestre.IdSemestre}, '{materia.Grupo.Horario}', {materia.Plantel.IdPlantel}, {materia.IdMateria} ");
+                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Creditos}, {materia.Costo}, {materia.Semestre.IdSemestre}, 'vespertino', {materia.Grupo.Plantel.IdPlantel}, '{materia.Imagen}'");
 
                     if (query >= 1)
                     {
@@ -59,10 +55,18 @@ namespace BL
                         materia.Nombre = obj.Nombre;
                         materia.Costo = obj.Costo;
                         materia.Creditos = obj.Creditos;
+                        materia.Imagen = obj.Imagen;
 
                         materia.Semestre = new ML.Semestre();
                         materia.Semestre.IdSemestre = obj.IdSemestre.Value;
 
+                        materia.Grupo = new ML.Grupo();
+                        materia.Grupo.IdGrupo = obj.IdGrupo.Value;
+                        materia.Grupo.Horario = obj.Horario;
+
+                        materia.Grupo.Plantel = new ML.Plantel();
+                        materia.Grupo.Plantel.IdPlantel = obj.IdPlantel;
+                        materia.Grupo.Plantel.Nombre = obj.Plantel;
 
                         result.Object = materia;
                         result.Correct = true;
@@ -109,6 +113,16 @@ namespace BL
 
                             usuario.Semestre = new ML.Semestre();
                             usuario.Semestre.IdSemestre = obj.IdSemestre.Value;
+
+                            usuario.Grupo = new ML.Grupo();
+                            usuario.Grupo.Horario = obj.Horario;
+                            usuario.Grupo.IdGrupo = obj.IdGrupo.Value;
+
+                            usuario.Grupo.Plantel = new ML.Plantel();
+                            usuario.Grupo.Plantel.IdPlantel = obj.IdPlantel;
+                            usuario.Grupo.Plantel.Nombre = obj.Plantel;
+
+                            usuario.Imagen = obj.Imagen;
 
                             result.Objects.Add(usuario);
                         }

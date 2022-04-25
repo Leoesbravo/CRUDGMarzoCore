@@ -24,7 +24,6 @@ namespace PL.Controllers
             materia.Grupo = new ML.Grupo();
             materia.Grupo.Plantel = new ML.Plantel();
 
-
             ML.Result resultPlantel = BL.Plantel.GetAll();
 
 
@@ -47,6 +46,13 @@ namespace PL.Controllers
                     if (result.Correct)
                     {
                         materia = ((ML.Materia)result.Object);
+
+                        ML.Result resultGrupo = BL.Grupo.GrupoGetByIdPlantel(materia.Grupo.Plantel.IdPlantel);
+                       
+                        materia.Grupo.Grupos = resultGrupo.Objects;
+                        materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
+                        materia.Semestre.Semestres = resultSemestre.Objects;
+
                         return View(materia);
                     }
                 }
@@ -58,6 +64,15 @@ namespace PL.Controllers
         public ActionResult Form(ML.Materia materia)
         {
             ML.Result result = new ML.Result();
+
+            IFormFile file = Request.Form.Files["fuImage"];
+
+            if (file != null)
+            {
+                byte[] ImagenBytes = ConvertToBytes(file);
+                materia.Imagen = Convert.ToBase64String(ImagenBytes);
+            }
+
 
             if (materia.IdMateria == 0)
             {
@@ -96,6 +111,17 @@ namespace PL.Controllers
 
             return Json(result.Objects);
         }
+        public static byte[] ConvertToBytes(IFormFile imagen)
+        {
+
+            using var fileStream = imagen.OpenReadStream();
+
+            byte[] bytes = new byte[fileStream.Length];
+            fileStream.Read(bytes, 0, (int)fileStream.Length);
+
+            return bytes;
+        }
+
 
     }
 }

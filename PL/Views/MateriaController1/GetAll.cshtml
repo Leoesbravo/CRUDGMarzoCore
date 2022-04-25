@@ -28,6 +28,7 @@
             <td>Creditos</td>
             <td>Costo</td>
             <td>Semestre</td>
+            <td>Imagen</td>
             <td>Eliminar</td>
         </tr>
     </thead>
@@ -41,6 +42,15 @@
             <td>@materia.Creditos</td>
             <td>@materia.Costo</td>
             <td>@materia.Semestre.IdSemestre</td>
+            @if (materia.Imagen != null)
+             {
+                <td><img src="data:image/*;base64,@materia.Imagen" style="width:min-content ; height:min-content"/></td>
+              }
+              else
+              {
+                            
+                  <td><img src="~/Images/sinimagen.png" width="auto" height="100" id="Img" /></td>
+              }
 
 
             <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>

@@ -133,6 +133,8 @@ namespace DL
 
                 entity.Property(e => e.Costo).HasColumnType("decimal(18, 2)");
 
+                entity.Property(e => e.Imagen).IsUnicode(false);
+
                 entity.Property(e => e.Nombre)
                     .HasMaxLength(50)
                     .IsUnicode(false);
