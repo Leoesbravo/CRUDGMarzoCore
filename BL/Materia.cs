@@ -56,6 +56,7 @@ namespace BL
                         materia.Costo = obj.Costo;
                         materia.Creditos = obj.Creditos;
                         materia.Imagen = obj.Imagen;
+                        materia.Status = obj.Status;
 
                         materia.Semestre = new ML.Semestre();
                         materia.Semestre.IdSemestre = obj.IdSemestre.Value;
@@ -123,6 +124,7 @@ namespace BL
                             usuario.Grupo.Plantel.Nombre = obj.Plantel;
 
                             usuario.Imagen = obj.Imagen;
+                            usuario.Status = obj.Status;
 
                             result.Objects.Add(usuario);
                         }
@@ -139,6 +141,36 @@ namespace BL
             {
                 result.Correct = false;
                 result.ErrorMessage = ex.Message;
+            }
+
+            return result;
+        }
+        public static ML.Result Update(ML.Materia materia)
+        {
+            ML.Result result = new ML.Result();
+            
+            try
+            {
+                using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
+                {
+                    var query = context.Database.ExecuteSqlRaw($" MateriaUpdate '{materia.Nombre}', {materia.Creditos}, {materia.Costo}, {materia.Semestre.IdSemestre}, 'vespertino', {materia.Grupo.Plantel.IdPlantel}, '{materia.Imagen}', {materia.Status}, {materia.IdMateria}");
+
+
+                    if (query >= 1)
+                    {
+                        result.Correct = true;
+                    }
+                    else
+                    {
+                        result.Correct = false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Correct = false;
+                result.ErrorMessage = ex.Message;
+                result.Ex = ex;
             }
 
             return result;

@@ -29,6 +29,7 @@
             <td>Costo</td>
             <td>Semestre</td>
             <td>Imagen</td>
+            <td>Status</td>
             <td>Eliminar</td>
         </tr>
     </thead>
@@ -44,14 +45,23 @@
             <td>@materia.Semestre.IdSemestre</td>
             @if (materia.Imagen != null)
              {
-                <td><img src="data:image/*;base64,@materia.Imagen" style="width:min-content ; height:min-content"/></td>
+                <td><img src="data:image/*;base64,@materia.Imagen" style="width:70px ; height:70px" /></td>
               }
               else
               {
                             
-                  <td><img src="~/Images/sinimagen.png" width="auto" height="100" id="Img" /></td>
+                  <td><img src="~/Images/sinimagen.png" width="70px" height="70px" id="Img" /></td>
               }
-
+             <td>
+                 @if(materia.Status == true)   
+                 {
+                 <a href="@Url.Action("UpdateStatus", "MateriaController1", new { IdMateria = materia.IdMateria })"> <img src="~/Images/ON.png" style=" height:25px; width:50px;" /></a>
+                 }
+                 else
+                 {
+                 <a href="@Url.Action("UpdateStatus", "MateriaController1", new { IdMateria = materia.IdMateria })"> <img src="~/Images/OFF.png" style=" height:25px; width:50px;" /></a>
+                 }                       
+             </td>
 
             <td><a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a></td>
         </tr>

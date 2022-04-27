@@ -17,5 +17,6 @@ namespace ML
         public ML.Grupo Grupo { get; set; }
         public ML.Plantel Plantel { get; set; }
         public string? Imagen { get; set; }
+        public bool Status { get; set; }
     }
 }

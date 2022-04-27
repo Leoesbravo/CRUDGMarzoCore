@@ -16,7 +16,9 @@ namespace DL
         public decimal? Costo { get; set; }
         public int? IdSemestre { get; set; }
         public string? Imagen { get; set; }
+        public bool Status { get; set; }
 
+        //propiedades foraneas
         public int? IdGrupo { get; set; }
         public string Horario { get; set; }
         public int IdPlantel { get; set; }

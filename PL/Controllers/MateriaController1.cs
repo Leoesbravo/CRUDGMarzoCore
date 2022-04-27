@@ -7,8 +7,8 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            ML.Result result = BL.Materia.GetAll();
-            ML.Materia materia = new ML.Materia();
+                ML.Result result = BL.Materia.GetAll();
+            ML.Materia materia = new ML.Materia();  
 
             materia.Materias = result.Objects;
 
@@ -88,7 +88,7 @@ namespace PL.Controllers
             }
             else
             {
-                //result = BL.Materia.Update(materia);
+                result = BL.Materia.Update(materia);
 
                 if (result.Correct)
                 {
@@ -102,7 +102,7 @@ namespace PL.Controllers
 
             }
 
-            return PartialView("Modal");
+            return View(materia);
         }
 
         public JsonResult GrupoGetByIdPlantel(int IdPlantel)
@@ -121,7 +121,24 @@ namespace PL.Controllers
 
             return bytes;
         }
+        public ActionResult UpdateStatus(int idMateria)
+        {
+            ML.Materia materia = new ML.Materia();
+            ML.Result result = BL.Materia.GetById(idMateria);
 
+            if (result.Correct)
+            {
+                materia = ((ML.Materia)result.Object);
+                materia.Status = materia.Status ? false : true;
+                ML.Result resultUpdate = BL.Materia.Update(materia);
+            }
+            else
+            {   
+               
+            }
+
+            return PartialView("Modal"); 
+        }
 
     }
 }
