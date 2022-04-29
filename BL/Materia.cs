@@ -18,7 +18,7 @@ namespace BL
             {
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
                 {
-                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Creditos}, {materia.Costo}, {materia.Semestre.IdSemestre}, 'vespertino', {materia.Grupo.Plantel.IdPlantel}, '{materia.Imagen}'");
+                    var query = context.Database.ExecuteSqlRaw($"MateriaAdd {materia.Nombre}, {materia.Creditos}, {materia.Costo}, {materia.Semestre.IdSemestre}, '{materia.Grupo.Horario}', {materia.Grupo.Plantel.IdPlantel}, '{materia.Imagen}', {materia.Status}");
 
                     if (query >= 1)
                     {
