@@ -104,7 +104,6 @@ namespace PL.Controllers
 
             return View(materia);
         }
-
         public JsonResult GrupoGetByIdPlantel(int IdPlantel)
         {
             ML.Result result = BL.Grupo.GrupoGetByIdPlantel(IdPlantel);
@@ -139,6 +138,5 @@ namespace PL.Controllers
 
             return PartialView("Modal"); 
         }
-
     }
 }

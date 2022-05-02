@@ -5,135 +5,135 @@
 }
 
 @*<div class="container">*@
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Materia</h2>
-            <h5>Ingrese los datos de la materia:</h5>
-        </div>
+<div class="row">
+    <div class="col-md-12">
+        <h2>Materia</h2>
+        <h5>Ingrese los datos de la materia:</h5>
     </div>
+</div>
 </hr>
 
-    <form class="row g-3">
-       @* <div class="col-md-12">*@
-            @using (Html.BeginForm("Form", "MateriaController1", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-            @*<div class="form-horizontal">*@
+<form class="row g-3">
+    @* <div class="col-md-12">*@
+    @using (Html.BeginForm("Form", "MateriaController1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @*<div class="form-horizontal">*@
 
-                @*<div class="form">*@
-                    <div class="col-md-3" style = "display: none;">
-                        @Html.LabelFor(model => model.Nombre, new { @class = "hidden" })
-                        @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control", autocomplete = "off" })
-                        @Html.ValidationMessageFor(model => model.IdMateria)
-                    </div>
-                @*</div>*@
-                @*<div class="form">*@
-                    <div class="col-md-3">
-                        @Html.LabelFor(model => model.Nombre)
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" ><i class="bi bi-rulers" style="color: midnightblue"></i></span>
-                            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia" })
-                            @Html.ValidationMessageFor(model => model.Nombre)
-                        </div>
-                    </div>
-               @* </div>*@
+        @*<div class="form">*@
+        <div class="col-md-3" style="display: none;">
+            @Html.LabelFor(model => model.Nombre, new { @class = "hidden" })
+            @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control", autocomplete = "off" })
+            @Html.ValidationMessageFor(model => model.IdMateria)
+        </div>
+        @*</div>*@
+        @*<div class="form">*@
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Nombre)
+            <div class="input-group mb-3">
+                <span class="input-group-text"><i class="bi bi-rulers" style="color: midnightblue"></i></span>
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia" })
+                @Html.ValidationMessageFor(model => model.Nombre)
+            </div>
+        </div>
+        @* </div>*@
 
-                <div class="form-group">
-                    <div class="col-md-3">
-                        @Html.Label("Semestre")
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" ><i class="bi bi-journal-text" style="color: midnightblue"></i></span>
-                            @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        @Html.LabelFor(model => model.Costo)
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" ><i class="bi bi-currency-dollar" style="color: midnightblue"></i></span>
-                            @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtNombre", @placeholder="MXN" })
-                            @Html.ValidationMessageFor(model => model.Costo)
-                        </div>
-                    </div>
+        <div class="form-group">
+            <div class="col-md-3">
+                @Html.Label("Semestre")
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-journal-text" style="color: midnightblue"></i></span>
+                    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
                 </div>
-                @*<div class="form-group">*@
-                    
-                @*</div>*@
-                
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(model => model.Costo)
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar" style="color: midnightblue"></i></span>
+                    @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtNombre", @placeholder="MXN" })
+                    @Html.ValidationMessageFor(model => model.Costo)
+                </div>
+            </div>
+        </div>
+        @*<div class="form-group">*@
 
-                @*<div class="form-group">*@
-                    <div class="col-md-2">
-                        @Html.LabelFor(model => model.Creditos)
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1" style="color: midnightblue">#</span>
-                            @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtNombre" })
-                        </div>
-                    </div>
-                @*</div>*@
-                @*<div class="form-group">*@
-                     <div class="col-md-3">
-
-                        @Html.LabelFor(model=> model.Imagen)
-
-                        <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-image" ></i></span>
-                            <input id="fuImage" type='file' class="form-control" name="fuImage" onchange="validateFile(this), readURL(this);  " />
-                        </div>
-
-                        @if (Model.Imagen != null )
-                        {
-
-                            <img id="Img" src="data:image/*;base64,@Model.Imagen" style="width:250px ; height:250px" />
-
-                        }
-                        else
-                        {
-                            <img id="Img" src="~/Images/sinimagen.png" style="width:250px ; height:250px" />
-                        }
+        @*</div>*@
 
 
-                    </div>
-                    @Html.HiddenFor(model => model.Imagen)
+        @*<div class="form-group">*@
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Creditos)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1" style="color: midnightblue">#</span>
+                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtNombre" })
+            </div>
+        </div>
+        @*</div>*@
+        @*<div class="form-group">*@
+        <div class="col-md-3">
 
-                    <div class="col-md-3">
-                        @Html.LabelFor(model => model.Grupo.Plantel.Planteles)   
-                        <div class="input-group mb-3">
-                             <span class="input-group-text" id="basic-addon1" ><i class="bi bi-building " style="color: midnightblue"></i></span>
-                        @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona un plantel", new { @class = "form-control", @id = "ddlPlantel" })
-                        @Html.ValidationMessageFor(model => model.Grupo.Plantel.IdPlantel)
-                        </div>
-                    </div>
+            @Html.LabelFor(model=> model.Imagen)
 
-                @*</div>*@
-                    <div class="col-md-4">
-                        @Html.LabelFor(model => model.Grupo.Grupos)  
-                         <div class="input-group mb-3">
-                             <span class="input-group-text" id="basic-addon1" ><i class="bi bi-calendar-plus-fill" style="color: midnightblue"></i></span>
-                        @if (Model.Grupo.Grupos == null)
-                            {
-                                @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
-                                @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
-                            }
-                            else
-                            {
-                                @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
-                                @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
-                            }
-                        </div>
-                    </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-card-image"></i></span>
+                <input id="fuImage" type='file' class="form-control" name="fuImage" onchange="validateFile(this), readURL(this);  " />
+            </div>
 
-               
+            @if (Model.Imagen != null)
+            {
 
-                <div class="form-group">
-                    <div class="col-md-3">
-                        <input type="submit" value="Guardar" class="btn btn-success" />
-                        @Html.ActionLink("Regresar", "GetAll", "MateriaController1", htmlAttributes: new { @class = "btn btn-danger" })
-                    </div>
-                </div>                  
-           @* </div>*@
+                <img id="Img" src="data:image/*;base64,@Model.Imagen" style="width:250px ; height:250px" />
 
             }
+            else
+            {
+                <img id="Img" src="~/Images/sinimagen.png" style="width:250px ; height:250px" />
+            }
+
+
+        </div>
+        @Html.HiddenFor(model => model.Imagen)
+
+        <div class="col-md-3">
+            @Html.LabelFor(model => model.Grupo.Plantel.Planteles)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-building " style="color: midnightblue"></i></span>
+                @Html.DropDownListFor(model => model.Grupo.Plantel.IdPlantel, new SelectList(Model.Grupo.Plantel.Planteles, "IdPlantel", "Nombre"), "Selecciona un plantel", new { @class = "form-control", @id = "ddlPlantel" })
+                @Html.ValidationMessageFor(model => model.Grupo.Plantel.IdPlantel)
+            </div>
+        </div>
+
         @*</div>*@
-    </form>
+        <div class="col-md-4">
+            @Html.LabelFor(model => model.Grupo.Grupos)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-calendar-plus-fill" style="color: midnightblue"></i></span>
+                @if (Model.Grupo.Grupos == null)
+                {
+                    @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(string.Empty, "Value", "Text"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                    @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.Grupo.IdGrupo, new SelectList(Model.Grupo.Grupos, "IdGrupo", "Horario"), "Selecciona un grupo", new { @class = "form-control", @id = "ddlGrupo" })
+                    @Html.ValidationMessageFor(model => model.Grupo.IdGrupo)
+                }
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <div class="col-md-3">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                @Html.ActionLink("Regresar", "GetAll", "MateriaController1", htmlAttributes: new { @class = "btn btn-danger" })
+            </div>
+        </div>
+        @* </div>*@
+
+    }
+    @*</div>*@
+</form>
 @*</div>*@
 @section Scripts
 {
@@ -141,66 +141,66 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
 
-$(document).ready(function () {
-        $("#ddlPlantel").change(function () {
-            $("#ddlGrupo").empty();
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("GrupoGetByIdPlantel")',
-                dataType: 'json',
-                data: { IdPlantel: $("#ddlPlantel").val() },
-                success: function (grupos) {
-                    $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
-                    $.each(grupos, function (i, grupos) {
-                        $("#ddlGrupo").append('<option value="'
-                                                   + grupos.idGrupo + '">'
-                                                   + grupos.horario + '</option>');
-                    });
-                },  
-                error: function (ex) {
-                    alert('Failed.' + ex);
-                }
+    $(document).ready(function () {
+            $("#ddlPlantel").change(function () {
+                $("#ddlGrupo").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GrupoGetByIdPlantel")',
+                    dataType: 'json',
+                    data: { IdPlantel: $("#ddlPlantel").val() },
+                    success: function (grupos) {
+                        $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
+                        $.each(grupos, function (i, grupos) {
+                            $("#ddlGrupo").append('<option value="'
+                                                       + grupos.idGrupo + '">'
+                                                       + grupos.horario + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed.' + ex);
+                    }
+                });
             });
+
         });
 
-    });
 
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
 
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#Img')
+                      .attr('src', e.target.result);
 
-            reader.onload = function (e) {
-                $('#Img')
-                  .attr('src', e.target.result);
+                };
 
-            };
-
-            reader.readAsDataURL(input.files[0]);
+                reader.readAsDataURL(input.files[0]);
+            }
         }
-    }
 
-   function validateFile() 
-        {
-            var allowedExtension = ['jpeg', 'jpg'];
-            var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
-            var isValidFile = false;
+       function validateFile()
+            {
+                var allowedExtension = ['jpeg', 'jpg'];
+                var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
+                var isValidFile = false;
 
-                for(var index in allowedExtension) {
+                    for(var index in allowedExtension) {
 
-                    if(fileExtension === allowedExtension[index]) {
-                        isValidFile = true; 
-                        break;
+                        if(fileExtension === allowedExtension[index]) {
+                            isValidFile = true;
+                            break;
+                        }
                     }
-                }
 
-                if(!isValidFile) {
-                    alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
-                    document.getElementById('fuImage').value = ""
-                }
+                    if(!isValidFile) {
+                        alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+                        document.getElementById('fuImage').value = ""
+                    }
 
-                return isValidFile;
-        }
+                    return isValidFile;
+            }
 </script>
 }
 
