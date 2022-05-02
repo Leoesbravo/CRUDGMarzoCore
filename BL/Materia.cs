@@ -375,40 +375,6 @@ namespace BL
 
             return result;
         }
-        public static ML.Result AgregarExcel(DataTable tableMateria)
-        {
-            ML.Result result = new ML.Result();
-            try
-            {
-                using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
-                {
-                    ML.Materia materia = new ML.Materia();
-                    materia.Semestre = new ML.Semestre();
-
-                    foreach (DataRow row in tableMateria.Rows)
-                    {
-                        //var query = context(empleado.NumeroEmpleado = row[0].ToString(), empleado.RFC = row[4].ToString(), empleado.Nombre = row[1].ToString(), empleado.ApellidoPaterno = row[2].ToString(), empleado.ApellidoMaterno = row[3].ToString(), empleado.Email, empleado.Telefono, empleado.FechaNacimiento, empleado.NSS, empleado.FechaIngreso, empleado.Foto, empleado.empresa.IdEmpresa);
-                        var query = context.Database.ExecuteSqlRaw($"MateriaAdd '{materia.Nombre}', {materia.Creditos}, {materia.Costo}, {materia.Semestre.IdSemestre}, '{materia.Grupo.Horario}', {materia.Grupo.Plantel.IdPlantel}, '{materia.Imagen}', {materia.Status}");
-
-                        if (query >= 1)
-                        {
-                            result.Correct = true;
-                        }
-                        else
-                        {
-                            result.Correct = false;
-                            result.ErrorMessage = "No se ha podido realizar el insert";
-                        }
-                        result.Correct = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                result.Correct = false;
-                result.ErrorMessage = ex.Message;
-            }
-            return result;
-        }
+       
     }
 }
