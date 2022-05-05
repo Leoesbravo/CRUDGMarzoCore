@@ -93,7 +93,7 @@ namespace BL
             }
             return result;
         }
-        public static ML.Result GetAll()
+        public static ML.Result GetAll(ML.Materia materia)
         {
             ML.Result result = new ML.Result();
             try
@@ -102,7 +102,7 @@ namespace BL
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
 
                 {
-                    var query = context.Materia.FromSqlRaw("MateriaGetAll").ToList();
+                    var query = context.Materia.FromSqlRaw($"MateriaGetAll {materia.Semestre.IdSemestre}, '{materia.Nombre}', '{materia.Grupo.Horario}'").ToList();
 
                     result.Objects = new List<object>();
                     if (query != null)
@@ -269,6 +269,8 @@ namespace BL
                             {
                                 ML.Materia materia = new ML.Materia();
                                 materia.Nombre = row[0].ToString();
+                                //row[1] = (row[1] == null) ? 0 : materia.Creditos;
+                                //materia.Nombre = (materia.Nombre == null) ? "" : materia.Nombre;
                                 materia.Creditos = byte.Parse(row[1].ToString());
                                 materia.Costo = decimal.Parse(row[2].ToString());
                                 

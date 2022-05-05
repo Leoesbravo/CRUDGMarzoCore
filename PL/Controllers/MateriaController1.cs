@@ -7,10 +7,31 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-                ML.Result result = BL.Materia.GetAll();
-            ML.Materia materia = new ML.Materia();  
+            ML.Materia materia = new ML.Materia();
+            materia.Semestre = new ML.Semestre();
+            materia.Grupo = new ML.Grupo();
 
+            ML.Result result = BL.Materia.GetAll(materia);
+            ML.Result resultSemestre = BL.Semestre.GetAll();
+
+            materia.Semestre.Semestres = resultSemestre.Objects;
             materia.Materias = result.Objects;
+
+            return View(materia);
+        }
+        [HttpPost]
+        public ActionResult GetAll(ML.Materia materia)
+        {
+            materia.Nombre = (materia.Nombre == null) ? "" : materia.Nombre;
+            //materia.Semestre.IdSemestre = (materia.Semestre.IdSemestre == null) ? "" : empleado.ApellidoPaterno;
+            materia.Grupo.Horario = materia.Grupo.Horario == null ? "" : materia.Grupo.Horario;
+
+            ML.Result result = BL.Materia.GetAll(materia);
+            materia.Materias = result.Objects;
+
+            ML.Result resultSemestre = BL.Semestre.GetAll();
+            materia.Semestre.Semestres = resultSemestre.Objects;
+
 
             return View(materia);
         }
@@ -48,7 +69,7 @@ namespace PL.Controllers
                         materia = ((ML.Materia)result.Object);
 
                         ML.Result resultGrupo = BL.Grupo.GrupoGetByIdPlantel(materia.Grupo.Plantel.IdPlantel);
-                       
+
                         materia.Grupo.Grupos = resultGrupo.Objects;
                         materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
                         materia.Semestre.Semestres = resultSemestre.Objects;
@@ -73,36 +94,49 @@ namespace PL.Controllers
                 materia.Imagen = Convert.ToBase64String(ImagenBytes);
             }
 
-
-            if (materia.IdMateria == 0)
+            if (ModelState.IsValid)
             {
-                result = BL.Materia.Add(materia);
-                if (result.Correct)
+
+
+                if (materia.IdMateria == 0)
                 {
-                    ViewBag.Message = "La materia se ha registrado correctamente";
+                    result = BL.Materia.Add(materia);
+                    if (result.Correct)
+                    {
+                        ViewBag.Message = "La materia se ha registrado correctamente";
+                    }
+                    else
+                    {
+                        ViewBag.Message = "La materia no se ha registrado correctamente " + result.ErrorMessage;
+                    }
                 }
                 else
                 {
-                    ViewBag.Message = "La materia no se ha registrado correctamente " + result.ErrorMessage;
+                    result = BL.Materia.Update(materia);
+
+                    if (result.Correct)
+                    {
+                        ViewBag.Message = "El registro se ha actualizado correctamente";
+                    }
+                    else
+                    {
+                        ViewBag.Message = "El registro no se ha actualizado correctamente " + result.ErrorMessage;
+                    }
+
+
                 }
             }
             else
             {
-                result = BL.Materia.Update(materia);
+                ML.Result resultSemestre = BL.Semestre.GetAll();
+                ML.Result resultPlantel = BL.Plantel.GetAll();
 
-                if (result.Correct)
-                {
-                    ViewBag.Message = "El registro se ha actualizado correctamente";
-                }
-                else
-                {
-                    ViewBag.Message = "El registro no se ha actualizado correctamente " + result.ErrorMessage;
-                }
+                materia.Semestre.Semestres = resultSemestre.Objects;
+                materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
 
-
+                return View(materia);
             }
-
-            return View(materia);
+            return PartialView("Modal");
         }
         public JsonResult GrupoGetByIdPlantel(int IdPlantel)
         {
@@ -132,11 +166,11 @@ namespace PL.Controllers
                 ML.Result resultUpdate = BL.Materia.Update(materia);
             }
             else
-            {   
-               
+            {
+
             }
 
-            return PartialView("Modal"); 
+            return PartialView("Modal");
         }
     }
 }
