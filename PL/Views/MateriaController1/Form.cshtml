@@ -12,9 +12,9 @@
 </div>
 </hr>
 
-    @using (Html.BeginForm("Form", "MateriaController1", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        <div class="row">
+@using (Html.BeginForm("Form", "MateriaController1", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
         <div class="col-md-3" style="display: none;">
             @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control", autocomplete = "off" })
         </div>
@@ -22,32 +22,33 @@
             @Html.LabelFor(model => model.Nombre)
             <div class="input-group mb-3">
                 <span class="input-group-text"><i class="bi bi-rulers" style="color: midnightblue"></i></span>
-                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia" })
+                @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia", autocomplete = "off" })
                 @Html.ValidationMessageFor(model => model.Nombre, null, new { @class = "text-danger"})
             </div>
         </div>
-            <div class="col-md-3">
-                @Html.Label("Semestre")
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-journal-text" style="color: midnightblue"></i></span>
-                    @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
-                </div>
+        <div class="col-md-3">
+            @Html.Label("Semestre")
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-journal-text" style="color: midnightblue"></i></span>
+                @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Selecciona un semestre", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Semestre.IdSemestre)
             </div>
-            <div class="col-md-2">
-                @Html.LabelFor(model => model.Costo)
-                <div class="input-group mb-3">
-                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar" style="color: midnightblue"></i></span>
-                    @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtNombre", @placeholder="MXN" })
-                    @Html.ValidationMessageFor(model => model.Costo)
-                </div>
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(model => model.Costo)
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="bi bi-currency-dollar" style="color: midnightblue"></i></span>
+                @Html.TextBoxFor(model => model.Costo, new { @class = "form-control", @id = "txtNombre", @placeholder="MXN" })
+                @Html.ValidationMessageFor(model => model.Costo)
             </div>
+        </div>
         <div class="col-md-2">
             @Html.LabelFor(model => model.Creditos)
             <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1" style="color: midnightblue">#</span>
-                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtCreditos", @onkeypress = "return SoloNumeros(this)"  })
+                @Html.TextBoxFor(model => model.Creditos, new { @class = "form-control", @id = "txtCreditos", @onkeypress = "return SoloNumeros(event)"  })
             </div>
+            @Html.Label(null, "", new {@id = "lblCreditos"})
         </div>
         <div class="col-md-3">
 
@@ -106,75 +107,100 @@
                 @Html.ActionLink("Regresar", "GetAll", "MateriaController1", htmlAttributes: new { @class = "btn btn-danger" })
             </div>
         </div>
-        </div>
-    }
+    </div>
+}
 
 @section Scripts
 {
 
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
 <script type="text/javascript">
 
-    $(document).ready(function () {
-            $("#ddlPlantel").change(function () {
-                $("#ddlGrupo").empty();
-                $.ajax({
-                    type: 'POST',
-                    url: '@Url.Action("GrupoGetByIdPlantel")',
-                    dataType: 'json',
-                    data: { IdPlantel: $("#ddlPlantel").val() },
-                    success: function (grupos) {
-                        $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
-                        $.each(grupos, function (i, grupos) {
-                            $("#ddlGrupo").append('<option value="'
-                                                       + grupos.idGrupo + '">'
-                                                       + grupos.horario + '</option>');
-                        });
-                    },
-                    error: function (ex) {
-                        alert('Failed.' + ex);
-                    }
+        $(document).ready(function () {
+                $("#ddlPlantel").change(function () {
+                    $("#ddlGrupo").empty();
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GrupoGetByIdPlantel")',
+                        dataType: 'json',
+                        data: { IdPlantel: $("#ddlPlantel").val() },
+                        success: function (grupos) {
+                            $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
+                            $.each(grupos, function (i, grupos) {
+                                $("#ddlGrupo").append('<option value="'
+                                                           + grupos.idGrupo + '">'
+                                                           + grupos.horario + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
+                    });
                 });
+
             });
 
-        });
 
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#Img')
+                          .attr('src', e.target.result);
 
-                reader.onload = function (e) {
-                    $('#Img')
-                      .attr('src', e.target.result);
+                    };
 
-                };
-
-                reader.readAsDataURL(input.files[0]);
+                    reader.readAsDataURL(input.files[0]);
+                }
             }
-        }
 
-       function validateFile()
-            {
-                var allowedExtension = ['jpeg', 'jpg'];
-                var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
-                var isValidFile = false;
+           function validateFile()
+                {
+                    var allowedExtension = ['jpeg', 'jpg'];
+                    var fileExtension = document.getElementById('fuImage').value.split('.').pop().toLowerCase();
+                    var isValidFile = false;
 
-                    for(var index in allowedExtension) {
+                        for(var index in allowedExtension) {
 
-                        if(fileExtension === allowedExtension[index]) {
-                            isValidFile = true;
-                            break;
+                            if(fileExtension === allowedExtension[index]) {
+                                isValidFile = true;
+                                break;
+                            }
                         }
-                    }
 
-                    if(!isValidFile) {
-                        alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
-                        document.getElementById('fuImage').value = ""
-                    }
+                        if(!isValidFile) {
+                            alert('Las extensiones permitidas son : *.' + allowedExtension.join(', *.'));
+                            document.getElementById('fuImage').value = ""
+                        }
 
-                    return isValidFile;
+                        return isValidFile;
+                }
+            function SoloNumeros(e){
+                var regex = /^[0-9]+$/;
+                var numero = e.key;
+
+                if(regex.test(numero)){
+                    $("#txtCreditos").css('border-color: green;');
+                    return true;
+                }
+                else{
+                    $("#lblCreditos").text('Solo se aceptan numeros');
+                    $('#lblCreditos').css('display: block;', 'color', 'red');
+                    return false;
+                }
             }
+
+            $( function() {
+      $( "#txtNombre" ).datepicker({dateFormat: 'dd-mm-yy',
+                                  changeMonth: true,
+                                  changeYear: true});
+    } );
 
 </script>
 }

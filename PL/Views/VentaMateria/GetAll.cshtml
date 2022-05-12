@@ -1,0 +1,53 @@
+﻿@model ML.Materia
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Materia</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Seleccione una materia para agregarla al carrito</h5>
+        <hr />
+    </div>
+</div>
+</hr>
+
+
+@using (Html.BeginForm("GetAll", "VentaMateria", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="row">
+        <div class="col-md-3">
+            @Html.DropDownListFor(model => model.Semestre.IdSemestre, new SelectList(Model.Semestre.Semestres, "IdSemestre", "Nombre"), "Todos los semestres", new { @class = "form-control bg-light text-dark" })
+        </div>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control bg-light text-dark", placeholder = "Nombre" })
+        </div>
+        <div class="col-md-3">
+            @Html.TextBoxFor(model => model.Grupo.Horario, new { @class = "form-control bg-light text-darke", placeholder = "Turno" })
+        </div>
+        <div class="col-md-1">
+            <input type="submit" value="Buscar" class="btn btn-secondary text-light" />
+        </div>
+    </div>
+}
+<br />
+<div class="row">
+    @foreach (ML.Materia materia in Model.Materias)
+    {
+        <div class="col mt-3 pt-3">
+            <div class="card text-white bg-dark border-success  mb-3 border-4 " style="width: 18rem;">
+                <img src="~/Images/Historia.jpg" class="card-img-top" style=" height:50%; width:100%;">
+                <div class="card-body ">
+                    <h5 class="card-title card-header text-center bg-secondary ">@materia.Nombre</h5>
+                    <p class="card-text">Creditos: @materia.Creditos</p>
+                    <p class="card-text">Costo: @materia.Costo</p>
+                    <p class="card-text">Semestre: @materia.Semestre.IdSemestre</p>
+
+                    <a href="@Url.Action("Cart", "VentaMateria", new { IdMateria = materia.IdMateria})" class="btn btn-success">Añadir <i class="bi bi-cart3" style="color: khaki"></i> </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

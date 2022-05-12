@@ -57,7 +57,7 @@ namespace BL
                         materia.IdMateria = obj.IdMateria;
                         materia.Nombre = obj.Nombre;
                         materia.Costo = obj.Costo;
-                        materia.Creditos = obj.Creditos;
+                        materia.Creditos = obj.Creditos.Value;
                         materia.Imagen = obj.Imagen;
                         materia.Status = obj.Status;
 
@@ -102,6 +102,7 @@ namespace BL
                 using (DL.LEscogidoMarzoContext context = new DL.LEscogidoMarzoContext())
 
                 {
+                    materia.Semestre.IdSemestre = (materia.Semestre.IdSemestre == null) ? 0 : materia.Semestre.IdSemestre;
                     var query = context.Materia.FromSqlRaw($"MateriaGetAll {materia.Semestre.IdSemestre}, '{materia.Nombre}', '{materia.Grupo.Horario}'").ToList();
 
                     result.Objects = new List<object>();
@@ -112,7 +113,7 @@ namespace BL
                             ML.Materia usuario = new ML.Materia();
                             usuario.IdMateria = obj.IdMateria;
                             usuario.Nombre = obj.Nombre;
-                            usuario.Creditos = obj.Creditos;
+                            usuario.Creditos = obj.Creditos.Value;
                             usuario.Costo = obj.Costo;
 
                             usuario.Semestre = new ML.Semestre();

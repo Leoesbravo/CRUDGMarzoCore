@@ -68,7 +68,7 @@ namespace PL.Controllers
                     {
                         materia = ((ML.Materia)result.Object);
 
-                        ML.Result resultGrupo = BL.Grupo.GrupoGetByIdPlantel(materia.Grupo.Plantel.IdPlantel);
+                        ML.Result resultGrupo = BL.Grupo.GrupoGetByIdPlantel(materia.Grupo.Plantel.IdPlantel.Value);
 
                         materia.Grupo.Grupos = resultGrupo.Objects;
                         materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
@@ -98,7 +98,7 @@ namespace PL.Controllers
             {
 
 
-                if (materia.IdMateria == 0)
+                if (materia.IdMateria == null)
                 {
                     result = BL.Materia.Add(materia);
                     if (result.Correct)
@@ -162,7 +162,7 @@ namespace PL.Controllers
             if (result.Correct)
             {
                 materia = ((ML.Materia)result.Object);
-                materia.Status = materia.Status ? false : true;
+                materia.Status = materia.Status.Value ? false : true;
                 ML.Result resultUpdate = BL.Materia.Update(materia);
             }
             else

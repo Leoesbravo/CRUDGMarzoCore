@@ -1,0 +1,68 @@
+﻿@model ML.VentaMateria
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Resumen de compra</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Revise el resumen de su compra.</h5>
+        <hr />
+    </div>
+</div>
+</hr>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right">
+            @Html.ActionLink("Volver al catálogo", "GetAll", "VentaMateria", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+
+
+
+
+<div id="paypal-button"></div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+  paypal.Button.render({
+    // Configure environment
+    env: 'sandbox',
+    client: {
+      sandbox: 'demo_sandbox_client_id',
+      production: 'demo_production_client_id'
+    },
+    // Customize button (optional)
+    locale: 'en_US',
+    style: {
+      size: 'small',
+      color: 'gold',
+      shape: 'pill',
+    },
+
+    // Enable Pay Now checkout flow (optional)
+    commit: true,
+
+    // Set up a payment
+    payment: function(data, actions) {
+      return actions.payment.create({
+        transactions: [{
+          amount: {
+            total: '0.01',
+            currency: 'USD'
+          }
+        }]
+      });
+    },
+    // Execute the payment
+    onAuthorize: function(data, actions) {
+      return actions.payment.execute().then(function() {
+        // Show a confirmation message to the buyer
+        window.alert('Thank you for your purchase!');
+      });
+    }
+  }, '#paypal-button');
+
+</script>
