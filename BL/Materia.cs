@@ -40,7 +40,7 @@ namespace BL
                 result.Ex = ex;
             }
 
-            return result;
+            return result;  
         }
         public static ML.Result GetById(int IdMateria)
         {

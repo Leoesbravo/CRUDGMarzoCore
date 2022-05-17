@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{D4D7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{4CD1F57D-DC03-4BB2-BD02-21B7D8EC15D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLC", "PLC\PLC.csproj", "{852D83BF-8C40-4B4F-9412-E8A48A8E85E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PLC", "PLC\PLC.csproj", "{852D83BF-8C40-4B4F-9412-E8A48A8E85E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SL_WebApi", "PL_SL2\SL_WebApi.csproj", "{1574ADD6-F0A8-4C17-ABB9-997B3614D53E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{852D83BF-8C40-4B4F-9412-E8A48A8E85E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852D83BF-8C40-4B4F-9412-E8A48A8E85E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{852D83BF-8C40-4B4F-9412-E8A48A8E85E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1574ADD6-F0A8-4C17-ABB9-997B3614D53E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1574ADD6-F0A8-4C17-ABB9-997B3614D53E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1574ADD6-F0A8-4C17-ABB9-997B3614D53E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1574ADD6-F0A8-4C17-ABB9-997B3614D53E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,17 +7,45 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult GetAll()
         {
-            ML.Materia materia = new ML.Materia();
-            materia.Semestre = new ML.Semestre();
-            materia.Grupo = new ML.Grupo();
+            //ML.Materia materia = new ML.Materia();
+            //materia.Semestre = new ML.Semestre();
+            //materia.Grupo = new ML.Grupo();
 
-            ML.Result result = BL.Materia.GetAll(materia);
-            ML.Result resultSemestre = BL.Semestre.GetAll();
+            //ML.Result result = BL.Materia.GetAll(materia);
+            //ML.Result resultSemestre = BL.Semestre.GetAll();
 
-            materia.Semestre.Semestres = resultSemestre.Objects;
-            materia.Materias = result.Objects;
+            //materia.Semestre.Semestres = resultSemestre.Objects;
+            //materia.Materias = result.Objects;
 
-            return View(materia);
+            //return View(materia);
+            ML.Materia resultmateria = new ML.Materia();
+            resultmateria.Materias = new List<Object>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://localhost:5017/api/");
+
+                var responseTask = client.GetAsync("Materia/GetAll ");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<ML.Result>();
+                    readTask.Wait();
+
+                    foreach (var resultItem in readTask.Result.Objects)
+                    {
+                        ML.Materia resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(resultItem.ToString());
+                        resultmateria.Materias.Add(resultItemList);
+                    }
+                    ML.Result resultSemestre = BL.Semestre.GetAll();
+                    resultmateria.Semestre = new ML.Semestre();
+                    resultmateria.Semestre.Semestres = resultSemestre.Objects;
+                }
+            }
+            return View(resultmateria);
         }
         [HttpPost]
         public ActionResult GetAll(ML.Materia materia)
@@ -100,14 +128,25 @@ namespace PL.Controllers
 
                 if (materia.IdMateria == null)
                 {
-                    result = BL.Materia.Add(materia);
-                    if (result.Correct)
+                    using (var client = new HttpClient())
                     {
-                        ViewBag.Message = "La materia se ha registrado correctamente";
-                    }
-                    else
-                    {
-                        ViewBag.Message = "La materia no se ha registrado correctamente " + result.ErrorMessage;
+                        client.BaseAddress = new Uri("http://localhost:5017/api/");
+
+                        var postTask = client.PostAsJsonAsync<ML.Materia>("Materia/Add", ateria);
+                        postTask.Wait();
+
+                        var resultAseguradora = postTask.Result;
+
+                        //result = BL.Materia.Add(materia);
+                        if (resultAseguradora.IsSuccessStatusCode)
+                        //if (result.Correct)
+                        {
+                            ViewBag.Message = "La materia se ha registrado correctamente";
+                        }
+                        else
+                        {
+                            ViewBag.Message = "La materia no se ha registrado correctamente " + result.ErrorMessage;
+                        }
                     }
                 }
                 else
