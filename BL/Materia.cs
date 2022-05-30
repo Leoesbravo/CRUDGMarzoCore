@@ -40,7 +40,7 @@ namespace BL
                 result.Ex = ex;
             }
 
-            return result;  
+            return result;
         }
         public static ML.Result GetById(int IdMateria)
         {
@@ -53,7 +53,7 @@ namespace BL
 
                     if (obj != null)
                     {
-                        ML.Materia materia = new ML.Materia();
+                         ML.Materia materia = new ML.Materia();
                         materia.IdMateria = obj.IdMateria;
                         materia.Nombre = obj.Nombre;
                         materia.Costo = obj.Costo;
@@ -274,11 +274,11 @@ namespace BL
                                 //materia.Nombre = (materia.Nombre == null) ? "" : materia.Nombre;
                                 materia.Creditos = byte.Parse(row[1].ToString());
                                 materia.Costo = decimal.Parse(row[2].ToString());
-                                
+
                                 materia.Semestre = new ML.Semestre();
                                 materia.Semestre.IdSemestre = int.Parse(row[3].ToString());
 
-                                materia.Grupo = new ML.Grupo(); 
+                                materia.Grupo = new ML.Grupo();
                                 materia.Grupo.Horario = row[4].ToString();
 
                                 materia.Grupo.Plantel = new ML.Plantel();
@@ -378,6 +378,6 @@ namespace BL
 
             return result;
         }
-       
+
     }
 }

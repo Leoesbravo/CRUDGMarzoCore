@@ -13,7 +13,7 @@ namespace DL
         public int IdMateria { get; set; }
         public string? Nombre { get; set; }
         public byte? Creditos { get; set; }
-        public decimal? Costo { get; set; }
+        public decimal Costo { get; set; }
         public int? IdSemestre { get; set; }
         public string? Imagen { get; set; }
         public bool Status { get; set; }

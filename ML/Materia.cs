@@ -13,7 +13,7 @@ namespace ML
         [Required(ErrorMessage = "Por favor escriba un nombre")]
         public string Nombre { get; set; }
         public byte Creditos { get; set; }
-        public decimal? Costo { get; set; }
+        public decimal Costo { get; set; }
         public ML.Semestre Semestre { get; set; }
         public List<object> Materias { get; set; }
         public ML.Grupo Grupo { get; set; }

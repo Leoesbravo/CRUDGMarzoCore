@@ -4,6 +4,13 @@ namespace PL.Controllers
 {
     public class MateriaController1 : Controller
     {
+        private readonly IConfiguration _configuration;
+
+        public MateriaController1(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         [HttpGet]
         public ActionResult GetAll()
         {
@@ -23,7 +30,8 @@ namespace PL.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri("http://localhost:5017/api/");
+                
+                client.BaseAddress = new Uri(_configuration["URL"]);
 
                 var responseTask = client.GetAsync("Materia/GetAll ");
                 responseTask.Wait();
@@ -132,7 +140,7 @@ namespace PL.Controllers
                     {
                         client.BaseAddress = new Uri("http://localhost:5017/api/");
 
-                        var postTask = client.PostAsJsonAsync<ML.Materia>("Materia/Add", ateria);
+                        var postTask = client.PostAsJsonAsync<ML.Materia>("Materia/Add", materia);
                         postTask.Wait();
 
                         var resultAseguradora = postTask.Result;
