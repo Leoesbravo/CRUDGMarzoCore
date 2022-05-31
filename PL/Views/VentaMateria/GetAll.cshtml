@@ -44,8 +44,9 @@
                     <p class="card-text">Creditos: @materia.Creditos</p>
                     <p class="card-text">Costo: @materia.Costo</p>
                     <p class="card-text">Semestre: @materia.Semestre.IdSemestre</p>
+                    <p class="card-text" style="display: none;"> @materia.IdMateria</p>
 
-                    <a href="@Url.Action("Cart", "VentaMateria", new { IdMateria = materia.IdMateria})" class="btn btn-success">Añadir <i class="bi bi-cart3" style="color: khaki"></i> </a>
+                    <a href="@Url.Action("CartPost", "VentaMateria", new { IdMateria = materia.IdMateria, Nombre = materia.Nombre, Costo = materia.Costo, Creditos = materia.Creditos})" class="btn btn-success">Añadir <i class="bi bi-cart3" style="color: khaki"></i> </a>
                 </div>
             </div>
         </div>

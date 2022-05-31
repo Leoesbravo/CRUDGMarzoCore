@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Xrm.Sdk.Messages;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace PL.Controllers
@@ -39,15 +40,34 @@ namespace PL.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public ActionResult Cart(ML.Materia materia)
+        [HttpGet]
+        public ActionResult CartPost(ML.Materia materia)
         {
             ML.VentaMateria ventaMateria = new ML.VentaMateria();
+     
+            if (HttpContext.Session.GetString("Producto") == null)
+            {
+                ventaMateria.VentaMaterias = new List<object>();
+                ventaMateria.VentaMaterias.Add(materia);
+                HttpContext.Session.SetString("Producto", Newtonsoft.Json.JsonConvert.SerializeObject(ventaMateria.VentaMaterias));
+                var session = HttpContext.Session.GetString("Producto");
+            }
+            else
+            {
+                //foreach (var resultItem in readTask.Result.Objects)
+                //{
+                //    ML.Usuario resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(resultItem.ToString());
+                //    usuario.Usuarios.Add(resultItemList);
+                //}
+                var ventaSession = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
+                ML.Materia test = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(ventaSession[0].ToString());
 
-            ventaMateria.VentaMaterias = new List<object>();
-            ventaMateria.VentaMaterias.Add(materia);
+                ventaMateria.VentaMaterias.Add(test);
+                
 
-            return View();
+            }
+
+            return GetAll();
         }
         //public ActionResult Serializar(List<object> Object)
         //{
