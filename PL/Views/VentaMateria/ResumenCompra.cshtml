@@ -1,0 +1,129 @@
+﻿@model ML.VentaMateria
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if(Context.Session.GetString("Producto") == null)
+{
+    <h2>Tu Carrito esta vacio</h2>
+
+    <div class="row">
+    <div class="col-md-12">
+        <h5>Vuelve al catalogo para agregar productos a tu carrito</h5>
+        <hr />
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+        <div style="float:right">
+            @Html.ActionLink("Volver al catálogo", "GetAll", "VentaMateria", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+</div>
+}
+else{
+<h2>Resumen de compra</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <h5>Revise el resumen de su compra.</h5>
+    </div>
+</div>
+<hr/>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right">
+            @Html.ActionLink("Volver al catálogo", "GetAll", "VentaMateria", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+<br />
+<table class="table  table-dark table-hover table-striped table-bordered table-responsive">
+    <thead>
+        <tr class="table-secondary">
+            <td style ="display :none;">id</td>
+            <td >Nombre</td>
+            <td>Creditos</td>
+            <td>Costo</td>
+            <td style ="text-align: center; vertical-align: middle;">Añadir</td>
+            <td style ="text-align: center; vertical-align: middle;">Cantidad</td>
+            <td style ="text-align: center; vertical-align: middle;">Quitar</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (ML.Materia materia in Model.VentaMaterias)
+        {
+        <tr>
+            <td style ="display :none;">@materia.IdMateria </td>
+            <td>@materia.Nombre</td>
+            <td>@materia.Creditos</td>
+            <td>@materia.Costo</td>
+            <td style ="text-align: center; vertical-align: middle;"><a class="btn btn-success " href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})"><i class="bi bi-plus-square-fill" style="color: mintcream"></i></a></td>
+            <td style ="text-align: center; vertical-align: middle;">@materia.Cantidad</td>
+            <td style ="text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este producto?');"><i class="bi bi-x-square-fill" style="color: mintcream"></i></a></td>
+        </tr>
+        }
+        <tr class="table-light" >
+            <td >Total</td>
+            <td ></td>
+            <td style ="text-align: center; vertical-align: middle;">Mucho</td>
+            <td ></td>
+            <td style ="text-align: center; vertical-align: middle;">Muchos</td>
+            <td ></td>
+        </tr>
+
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-md-12">
+        <div style="float:right">
+            @Html.ActionLink("Pagar", "GetAll", "VentaMateria", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+</div>
+
+
+
+<div id="paypal-button"></div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+  paypal.Button.render({
+    // Configure environment
+    env: 'sandbox',
+    client: {
+      sandbox: 'demo_sandbox_client_id',
+      production: 'demo_production_client_id'
+    },
+    // Customize button (optional)
+    locale: 'en_US',
+    style: {
+      size: 'small',
+      color: 'gold',
+      shape: 'pill',
+    },
+
+    // Enable Pay Now checkout flow (optional)
+    commit: true,
+
+    // Set up a payment
+    payment: function(data, actions) {
+      return actions.payment.create({
+        transactions: [{
+          amount: {
+            total: '0.01',
+            currency: 'USD'
+          }
+        }]
+      });
+    },
+    // Execute the payment
+    onAuthorize: function(data, actions) {
+      return actions.payment.execute().then(function() {
+        // Show a confirmation message to the buyer
+        window.alert('Thank you for your purchase!');
+      });
+    }
+  }, '#paypal-button');
+
+</script>
+}

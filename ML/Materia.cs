@@ -20,5 +20,6 @@ namespace ML
         public ML.Plantel Plantel { get; set; }
         public string? Imagen { get; set; }
         public bool? Status { get; set; }
+        public int Cantidad { get; set; }
     }
 }

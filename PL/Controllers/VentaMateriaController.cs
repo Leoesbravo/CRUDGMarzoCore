@@ -44,35 +44,71 @@ namespace PL.Controllers
         public ActionResult CartPost(ML.Materia materia)
         {
             ML.VentaMateria ventaMateria = new ML.VentaMateria();
-     
+            ventaMateria.VentaMaterias = new List<object>();
+
             if (HttpContext.Session.GetString("Producto") == null)
             {
-                ventaMateria.VentaMaterias = new List<object>();
+                materia.Cantidad = materia.Cantidad = 1;
                 ventaMateria.VentaMaterias.Add(materia);
                 HttpContext.Session.SetString("Producto", Newtonsoft.Json.JsonConvert.SerializeObject(ventaMateria.VentaMaterias));
                 var session = HttpContext.Session.GetString("Producto");
             }
             else
             {
-                //foreach (var resultItem in readTask.Result.Objects)
-                //{
-                //    ML.Usuario resultItemList = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Usuario>(resultItem.ToString());
-                //    usuario.Usuarios.Add(resultItemList);
-                //}
                 var ventaSession = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
-                ML.Materia test = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(ventaSession[0].ToString());
-
-                ventaMateria.VentaMaterias.Add(test);
-                
+               
+                foreach (var obj in ventaSession)
+                {
+                   ML.Materia objMateria = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(obj.ToString());
+                   ventaMateria.VentaMaterias.Add(objMateria);
+                }
+                //var indice = ventaMateria.VentaMaterias.IndexOf(materia);
+                foreach (ML.Materia venta in ventaMateria.VentaMaterias.ToList())
+                {
+                    if (materia.IdMateria == venta.IdMateria)
+                    {
+                        venta.Cantidad = venta.Cantidad + 1;   //True                
+                    }
+                    else
+                    {
+                        materia.Cantidad = materia.Cantidad = 1; //False
+                        ventaMateria.VentaMaterias.Add(materia);
+                    }
+                }       
+                HttpContext.Session.SetString("Producto", Newtonsoft.Json.JsonConvert.SerializeObject(ventaMateria.VentaMaterias));
+            }
+            if (HttpContext.Session.GetString("Producto") != null)
+            {
+                ViewBag.Message = "Se ha agregado la materia a tu carrito!";
+                return PartialView("Modal");
+            }
+            else
+            {
+                ViewBag.Message = "No se pudo agregar tu producto ):";
+                return PartialView("Modal");
+            }
+            
+        }
+        [HttpGet]
+        public ActionResult ResumenCompra(ML.VentaMateria ventaMateria)
+        {
+            if (HttpContext.Session.GetString("Producto") == null)
+            {
+                return View();
+            }
+            else
+            {
+                var ventaSession = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
+                ventaMateria.VentaMaterias = new List<object>();
+                foreach (var obj in ventaSession)
+                {
+                    ML.Materia objMateria = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(obj.ToString());
+                    ventaMateria.VentaMaterias.Add(objMateria);
+                }
 
             }
 
-            return GetAll();
+            return View(ventaMateria);
         }
-        //public ActionResult Serializar(List<object> Object)
-        //{
-        //    ISerializer
-        //    return View();
-        //}
     }
 }

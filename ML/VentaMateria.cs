@@ -13,5 +13,6 @@ namespace ML
         public int Cantidad { get; set; }
         public ML.Materia Materia { get; set; }
         public List<object> VentaMaterias { get; set; }
+        public int Total { get; set; }
     }
 }

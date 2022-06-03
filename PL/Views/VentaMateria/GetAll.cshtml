@@ -33,6 +33,7 @@
     </div>
 }
 <br />
+
 <div class="row">
     @foreach (ML.Materia materia in Model.Materias)
     {
@@ -40,15 +41,55 @@
             <div class="card text-white bg-dark border-success  mb-3 border-4 " style="width: 18rem;">
                 <img src="~/Images/Historia.jpg" class="card-img-top" style=" height:50%; width:100%;">
                 <div class="card-body ">
-                    <h5 class="card-title card-header text-center bg-secondary ">@materia.Nombre</h5>
-                    <p class="card-text">Creditos: @materia.Creditos</p>
-                    <p class="card-text">Costo: @materia.Costo</p>
-                    <p class="card-text">Semestre: @materia.Semestre.IdSemestre</p>
-                    <p class="card-text" style="display: none;"> @materia.IdMateria</p>
-
+                    <h5 class="card-title card-header text-center bg-secondary" id="pNombre">@materia.Nombre</h5>
+                    <p class="card-text" id="pCreditos">Creditos: @materia.Creditos</p>
+                    <p class="card-text" id="pCosto">Costo: @materia.Costo</p>
+                    <p class="card-text" id="pIdSemestre">Semestre: @materia.Semestre.IdSemestre</p>
+                    <p class="card-text" style="display: none;" id="pIdMateria"> @materia.IdMateria</p>
                     <a href="@Url.Action("CartPost", "VentaMateria", new { IdMateria = materia.IdMateria, Nombre = materia.Nombre, Costo = materia.Costo, Creditos = materia.Creditos})" class="btn btn-success">Añadir <i class="bi bi-cart3" style="color: khaki"></i> </a>
+
+                   @* <button class="btn btn-success" onclick="CrearObjeto()" >Añadir <i class="bi bi-cart3" style="color: khaki"></i></button>      *@             
                 </div>
             </div>
         </div>
     }
 </div>
+@section Scripts
+{
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+
+<script type="text/javascript">
+
+    function CrearObjeto() {
+    var materia = {
+        IdMateria: $('#pIdMateria').val(),
+        Costo: $('#pCosto').val(),
+        Nombre: $('#pNombre').val(),
+        Creditos: $('#pCreditos').val(),
+        Semestre: {
+            IdSemestre: $('#pIdSemestre').val()
+        }
+    }
+    Add(materia)
+}
+
+
+
+    function Add(materia) {
+
+    $.ajax({
+        type: 'GET',
+        url: '@Url.Action("CartPost")',
+        dataType: 'json',
+        data: JSON.stringify(materia),
+        contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+            $('#myModal').modal();
+            $('#ModalUpdate').modal('hide');
+            GetAll();
+        }
+    });
+};
+</script>
+}
