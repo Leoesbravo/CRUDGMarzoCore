@@ -45,6 +45,7 @@ else{
             <td >Nombre</td>
             <td>Creditos</td>
             <td>Costo</td>
+            <td>Subtotal</td>
             <td style ="text-align: center; vertical-align: middle;">Añadir</td>
             <td style ="text-align: center; vertical-align: middle;">Cantidad</td>
             <td style ="text-align: center; vertical-align: middle;">Quitar</td>
@@ -58,16 +59,18 @@ else{
             <td>@materia.Nombre</td>
             <td>@materia.Creditos</td>
             <td>@materia.Costo</td>
-            <td style ="text-align: center; vertical-align: middle;"><a class="btn btn-success " href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})"><i class="bi bi-plus-square-fill" style="color: mintcream"></i></a></td>
+            <td>@materia.Subtotal</td>
+            <td style ="text-align: center; vertical-align: middle;"><a class="btn btn-success " , new { IdMateria= materia.IdMateria})"><i class="bi bi-plus-square-fill" style="color: mintcream"></i></a></td>
             <td style ="text-align: center; vertical-align: middle;">@materia.Cantidad</td>
             <td style ="text-align: center; vertical-align: middle;"><a class="btn btn-danger" href="@Url.Action("Delete", "MateriaController1", new { IdMateria= materia.IdMateria})" onclick="return confirm('Estas seguro que deseas eliminar este producto?');"><i class="bi bi-x-square-fill" style="color: mintcream"></i></a></td>
         </tr>
         }
+        
         <tr class="table-light" >
             <td >Total</td>
             <td ></td>
-            <td style ="text-align: center; vertical-align: middle;">Mucho</td>
             <td ></td>
+            <td style ="text-align: center; vertical-align: middle;">@Model.Total</td>
             <td style ="text-align: center; vertical-align: middle;">Muchos</td>
             <td ></td>
         </tr>
@@ -124,6 +127,37 @@ else{
       });
     }
   }, '#paypal-button');
+
+</script>
+}
+@section Scripts
+{
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+<script type="text/javascript">
+    function addProducto (){
+         $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("GetCarrito")',
+                        dataType: 'json',
+                        data: { IdPlantel: $("#ddlPlantel").val() },
+                        success: function (grupos) {
+                            $("#ddlGrupo").append('<option value="0">'+ 'Seleccione una opción' + '</option>');
+                            $.each(grupos, function (i, grupos) {
+                                $("#ddlGrupo").append('<option value="'
+                                                           + grupos.idGrupo + '">'
+                                                           + grupos.horario + '</option>');
+                            });
+                        },
+                        error: function (ex) {
+                            alert('Failed.' + ex);
+                        }
+                    });
+    }
+
 
 </script>
 }

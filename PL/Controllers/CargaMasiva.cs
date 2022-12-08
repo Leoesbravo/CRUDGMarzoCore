@@ -13,7 +13,7 @@ namespace PL.Controllers
         {
             _configuration = configuration;
             _hostingEnvironment = hostingEnvironment;
-        } //inyección de dependencias 
+        } 
 
         [HttpGet]
         public ActionResult MateriaCargaMasiva()
@@ -113,11 +113,11 @@ namespace PL.Controllers
                                 writer.WriteLine(ln);
                             }
                         }
-                        ViewBag.Message = "Los Alumnos No han sido registrados correctamente";
+                        ViewBag.Message = "Las Materias No han sido registrados correctamente";
                     }
                     else
                     {
-                        ViewBag.Message = "Los Alumnos han sido registrados correctamente";
+                        ViewBag.Message = "Las Materias han sido registrados correctamente";
                     }
 
                 }

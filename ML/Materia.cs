@@ -10,7 +10,7 @@ namespace ML
     public class Materia
     {
         public int? IdMateria { get; set; }
-        [Required(ErrorMessage = "Por favor escriba un nombre")]
+        //[Required(ErrorMessage = "Por favor escriba un nombre")]
         public string Nombre { get; set; }
         public byte Creditos { get; set; }
         public decimal Costo { get; set; }
@@ -21,5 +21,6 @@ namespace ML
         public string? Imagen { get; set; }
         public bool? Status { get; set; }
         public int Cantidad { get; set; }
+        public decimal Subtotal { get; set; }
     }
 }

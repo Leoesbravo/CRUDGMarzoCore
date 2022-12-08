@@ -179,6 +179,7 @@ namespace BL
 
             return result;
         }
+        //Carga Masiva con txt
         public static ML.Result CargaMasiva(string root)
         {
             ML.Result result = new ML.Result();
@@ -271,7 +272,7 @@ namespace BL
                                 ML.Materia materia = new ML.Materia();
                                 materia.Nombre = row[0].ToString();
                                 //row[1] = (row[1] == null) ? 0 : materia.Creditos;
-                                //materia.Nombre = (materia.Nombre == null) ? "" : materia.Nombre;
+                                //materia.Creditos = (materia.Creditos == null) ? 0 : materia.Creditos;
                                 materia.Creditos = byte.Parse(row[1].ToString());
                                 materia.Costo = decimal.Parse(row[2].ToString());
 

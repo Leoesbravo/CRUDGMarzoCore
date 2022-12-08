@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
 
 namespace PL.Controllers
 {
@@ -33,7 +34,7 @@ namespace PL.Controllers
                 
                 client.BaseAddress = new Uri(_configuration["URL"]);
 
-                var responseTask = client.GetAsync("Materia/GetAll ");
+                var responseTask = client.GetAsync("Materia/GetAll");
                 responseTask.Wait();
 
                 var result = responseTask.Result;
@@ -180,7 +181,7 @@ namespace PL.Controllers
 
                 materia.Semestre.Semestres = resultSemestre.Objects;
                 materia.Grupo.Plantel.Planteles = resultPlantel.Objects;
-
+                
                 return View(materia);
             }
             return PartialView("Modal");
@@ -219,5 +220,6 @@ namespace PL.Controllers
 
             return PartialView("Modal");
         }
+
     }
 }

@@ -43,38 +43,44 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult CartPost(ML.Materia materia)
         {
+            bool existe = false;
             ML.VentaMateria ventaMateria = new ML.VentaMateria();
             ventaMateria.VentaMaterias = new List<object>();
 
             if (HttpContext.Session.GetString("Producto") == null)
             {
                 materia.Cantidad = materia.Cantidad = 1;
+                materia.Subtotal = materia.Costo * materia.Cantidad;
                 ventaMateria.VentaMaterias.Add(materia);
                 HttpContext.Session.SetString("Producto", Newtonsoft.Json.JsonConvert.SerializeObject(ventaMateria.VentaMaterias));
                 var session = HttpContext.Session.GetString("Producto");
             }
             else
             {
-                var ventaSession = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
-               
-                foreach (var obj in ventaSession)
-                {
-                   ML.Materia objMateria = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(obj.ToString());
-                   ventaMateria.VentaMaterias.Add(objMateria);
-                }
-                //var indice = ventaMateria.VentaMaterias.IndexOf(materia);
+                GetCarrito(ventaMateria);
                 foreach (ML.Materia venta in ventaMateria.VentaMaterias.ToList())
                 {
                     if (materia.IdMateria == venta.IdMateria)
                     {
-                        venta.Cantidad = venta.Cantidad + 1;   //True                
+                        venta.Cantidad = venta.Cantidad + 1;   //True
+                        venta.Subtotal = venta.Costo * venta.Cantidad;
+                        existe = true;
                     }
                     else
                     {
-                        materia.Cantidad = materia.Cantidad = 1; //False
-                        ventaMateria.VentaMaterias.Add(materia);
+                        existe = false;
                     }
-                }       
+                    if(existe == true)
+                    {
+                        break;
+                    }
+                }
+                if(existe == false)
+                {
+                    materia.Cantidad = materia.Cantidad = 1;
+                    materia.Subtotal = materia.Cantidad * materia.Costo;
+                    ventaMateria.VentaMaterias.Add(materia);
+                }
                 HttpContext.Session.SetString("Producto", Newtonsoft.Json.JsonConvert.SerializeObject(ventaMateria.VentaMaterias));
             }
             if (HttpContext.Session.GetString("Producto") != null)
@@ -92,23 +98,34 @@ namespace PL.Controllers
         [HttpGet]
         public ActionResult ResumenCompra(ML.VentaMateria ventaMateria)
         {
+            decimal costoTotal = 0;
             if (HttpContext.Session.GetString("Producto") == null)
             {
                 return View();
             }
             else
             {
-                var ventaSession = Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
                 ventaMateria.VentaMaterias = new List<object>();
-                foreach (var obj in ventaSession)
-                {
-                    ML.Materia objMateria = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(obj.ToString());
-                    ventaMateria.VentaMaterias.Add(objMateria);
-                }
-
+                GetCarrito(ventaMateria);
+                ventaMateria.Total = costoTotal;
             }
 
             return View(ventaMateria);
         }
+        public ML.VentaMateria GetCarrito(ML.VentaMateria ventaMateria)
+        {
+            var ventaSession =  Newtonsoft.Json.JsonConvert.DeserializeObject<List<object>>(HttpContext.Session.GetString("Producto"));
+
+            foreach (var obj in ventaSession)
+            {
+                ML.Materia objMateria = Newtonsoft.Json.JsonConvert.DeserializeObject<ML.Materia>(obj.ToString());
+                ventaMateria.VentaMaterias.Add(objMateria);
+            }
+            return ventaMateria;
+        }
+        //public JsonResult AddProducto(int idProducto)
+        //{
+
+        //}
     }
 }

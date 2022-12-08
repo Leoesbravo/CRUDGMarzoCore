@@ -25,7 +25,7 @@ namespace PL_SL2.Controllers
             }
 
         }
-        [HttpPost]
+        [HttpPost] 
         [Route("api/Materia/Add")]
         public IActionResult Post([FromBody]ML.Materia materia)
         {
@@ -59,5 +59,42 @@ namespace PL_SL2.Controllers
             }
 
         }
+        //[HttpPost]
+        //[Route("api/Usuario/Authenticate")]
+        //public IActionResult Authenticate([FromBody] ML.Materia materia)
+        //{
+        //    ML.Materia usuariologin = new ML.Materia();
+        //    ML.Result result = BL.Materia.GetById(materia.IdMateria.Value);
+        //    usuariologin = (ML.Materia)result.Object;
+
+        //    if (result.Correct)
+        //    {
+
+        //        if (materia.UserName == usuariologin.UserName)
+        //        {
+        //            if (materia.Password == materia.Password)
+        //            {
+        //                var token =  TokenGenerator.GenerateTokenJwt(materia.UserName);
+        //                return Ok(result);
+
+        //            }
+        //            else
+        //            {
+        //                result.ErrorMessage = "Contraseña incorrecta";
+        //                return Content(HttpStatusCode.NotFound, result.ErrorMessage);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            result.ErrorMessage = "User Name incorrecto";
+        //            return Content(HttpStatusCode.NotFound, result.ErrorMessage);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        result.ErrorMessage = "No encontrado";
+        //        return Content(HttpStatusCode.NotFound, result.ErrorMessage);
+        //    }
+        //}
     }
 }

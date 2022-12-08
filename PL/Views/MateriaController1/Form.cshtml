@@ -18,13 +18,15 @@
         <div class="col-md-3" style="display: none;">
             @Html.TextBoxFor(model => model.IdMateria, new { @class = "hidden form-control", autocomplete = "off" })
         </div>
+
         <div class="col-md-3">
             @Html.LabelFor(model => model.Nombre)
             <div class="input-group mb-3">
-                <span class="input-group-text"><i class="bi bi-rulers" style="color: midnightblue"></i></span>
+                <span class="input-group-text"><i class="bi bi-controller"></i></span>
                 @Html.TextBoxFor(model => model.Nombre, new { @class = "form-control", @id = "txtNombre", @placeholder="Ejemp: Historia", autocomplete = "off" })
                 @Html.ValidationMessageFor(model => model.Nombre, null, new { @class = "text-danger"})
             </div>
+        
         </div>
         <div class="col-md-3">
             @Html.Label("Semestre")
@@ -99,7 +101,7 @@
             </div>
         </div>
 
-
+         
 
         <div class="form-group">
             <div class="col-md-3">
@@ -112,7 +114,7 @@
 
 @section Scripts
 {
-
+        
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
@@ -196,11 +198,26 @@
                 }
             }
 
+
             $( function() {
       $( "#txtNombre" ).datepicker({dateFormat: 'dd-mm-yy',
                                   changeMonth: true,
                                   changeYear: true});
     } );
+
+    
+        function SoloNumeros(e, controlId) {
+        var caracter = e.key;
+        if (!/^[0-9]/g.test(caracter)) {
+            $('#' + controlId).text("Solo se aceptan numeros");
+            $('#' + controlId).css({ "color": "red" });
+            return false;
+        }
+        else {
+            $('#' + controlId).text("");
+            return true;
+        }
+         }
 
 </script>
 }

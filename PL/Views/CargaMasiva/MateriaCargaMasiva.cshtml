@@ -1,4 +1,4 @@
-﻿@model ML.Result
+﻿
 @{
     ViewData["Title"] = "MateriaCargaMasiva";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -85,15 +85,19 @@
 @section Scripts
 {
 <script src="~/lib/jquery/dist/jquery.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
 <script type="text/javascript">
-
-
 
 
     $('#xlsx').click(function() {
       $('#fuImage').toggle('slow', function() {
       });
     });
+
+     $( function() {
+    $( "#txt" ).datepicker();
+  } );
 </script>
 }
 
